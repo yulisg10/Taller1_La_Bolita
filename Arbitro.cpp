@@ -1,17 +1,17 @@
-//Debe crear una cabecera de archivo tal como se indicó en clase
+//Debe crear una cabecera de archivo tal como se indicÃ³ en clase
 /*
  *  Clase: Arbitro
  *
  *  Responsabilidad:
- *  Se encarga de gestionar todas las funciones requeridas para la ejecución del juego.
- *  Se realiza la dimensión del Tablero dependiendo del número ingresado por el jugador.
- *  Solicita el ingreso de coordenadas a través de mensajes en pantalla.
- *  Se valida los intentos de posición en hallar la Bolita, la cual si fallan, se repite la solicitud hasta encontrarla.
- *  La posición de la Bolita está en forma aleatoria que el jugador debe adivinar dónde se encuentra.
+ *  Se encarga de gestionar todas las funciones requeridas para la ejecuciÃ³n del juego.
+ *  Se realiza la dimensiÃ³n del Tablero dependiendo del nÃºmero ingresado por el jugador.
+ *  Solicita el ingreso de coordenadas a travÃ©s de mensajes en pantalla.
+ *  Se valida los intentos de posiciÃ³n en hallar la Bolita, la cual si fallan, se repite la solicitud hasta encontrarla.
+ *  La posiciÃ³n de la Bolita estÃ¡ en forma aleatoria que el jugador debe adivinar dÃ³nde se encuentra.
  *  Indica la Distancia que se encuentra ubicado la Bolita, cada vez que se falle en el intento (Como una Pista).
  *
- *  Colaboración: La clase Arbitro necesita de la clase Tablero para efectuar el tamaño del tablero
- *  y ocultar la posición de la Bolita.
+ *  ColaboraciÃ³n: La clase Arbitro necesita de la clase Tablero para efectuar el tamaÃ±o del tablero
+ *  y ocultar la posiciÃ³n de la Bolita.
  */
 
 #include <iostream>
@@ -63,12 +63,12 @@ void Arbitro::iniciarJuego() {
 			int y;
 			bool adivinar = false;
 
-			//Permite que la Ubicación aleatoria de la Bolita quede Constante y no Cambie cada vez que Imprime el Tablero
+			//Permite que la UbicaciÃ³n aleatoria de la Bolita quede Constante y no Cambie cada vez que Imprime el Tablero
 			while(!adivinar){
 
-				//Indica la ubicación de la Bolita Oculta
-				cout<<endl;
-				cout<<"Posicion de la Bolita: "<<filaBolita<<" "<<columnaBolita<<endl;
+				//Indica la ubicaciÃ³n de la Bolita Oculta
+				//cout<<endl;
+				//cout<<"Posicion de la Bolita: "<<filaBolita<<" "<<columnaBolita<<endl;
 
 				cout<<endl;
 				cout<<"Ingrese una posicion en Fila: ";
@@ -124,7 +124,7 @@ void Arbitro::imprimirTablero() {
 int Arbitro::calcularDistancia(int fila, int columna){
     //Debe implmentar un metodo que calcula la distancia entre la posicion (fila, columna)
     //Y la posicion real de la bolita
-    return floor(sqrt(( (fila - filaBolita)*(fila - filaBolita)) + ((columna - columnaBolita)*(columna - columnaBolita)) )); //Floor retorna un número entero, a pesar que el resultado sea un decimal
+    return floor(sqrt(( (fila - filaBolita)*(fila - filaBolita)) + ((columna - columnaBolita)*(columna - columnaBolita)) )); //Floor retorna un nÃºmero entero, a pesar que el resultado sea un decimal
 }
 
 bool Arbitro::validarIntento(int fila, int columna){
@@ -146,7 +146,7 @@ bool Arbitro::validarIntento(int fila, int columna){
 		juegoEnCurso=false;
 	}
 	else{
-						//100  - 100   /(N * N) Dimensión Digitado por el Usuario
+						//100  - 100   /(N * N) DimensiÃ³n Digitado por el Usuario
 		puntaje = floor(puntaje-puntaje/(tablero.getDimension() * tablero.getDimension()));
 
 		int puntos = puntaje;
@@ -165,11 +165,11 @@ bool Arbitro::validarIntento(int fila, int columna){
 			cout<<"La Distancia es: "<<calcularDistancia(fila, columna)<<endl;
 		}
 
-		//Si Fila y Columna SUPERA la Dimensión establecida, no mostrará el ASTERISCO en la Posición que Indico el Usuario
+		//Si Fila y Columna SUPERA la DimensiÃ³n establecida, no mostrarÃ¡ el ASTERISCO en la PosiciÃ³n que Indico el Usuario
 		if(fila > tablero.getDimension() || columna > tablero.getDimension()){
 			cout<<endl;
-			system("pause"); //Función (Presionse Tecla Para Continuar...)
-			system("cls"); //Limpiar Pantalla (Funciona En Consola .exe) Debe incluir la Librería stdlib.h
+			system("pause"); //FunciÃ³n (Presionse Tecla Para Continuar...)
+			system("cls"); //Limpiar Pantalla (Funciona En Consola .exe) Debe incluir la LibrerÃ­a stdlib.h
 			imprimirTablero();
 		}
 		else{
