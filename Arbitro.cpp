@@ -43,12 +43,10 @@ void Arbitro::iniciarJuego() {
 
 	cout << "Ingrese un numero para la Dimension del Tablero: ";
 	cin >> d;
-	cout<<endl;
 
-	if(d>=0){
+	if(d!=0){
 		Tablero tablero1(d);
 		tablero = tablero1;
-
 
 		imprimirTablero();
 
@@ -56,27 +54,39 @@ void Arbitro::iniciarJuego() {
 
 		while(juegoEnCurso)
 		{
-			filaBolita = rand()%d;
-			columnaBolita = rand()%d;
-
 			int x;
 			int y;
 			bool adivinar = false;
 
-			//Permite que la Ubicación aleatoria de la Bolita quede Constante y no Cambie cada vez que Imprime el Tablero
-			while(!adivinar){
+			filaBolita = rand()%d;
+			columnaBolita = rand()%d;
 
+			while(!adivinar){
 				//Indica la ubicación de la Bolita Oculta
 				//cout<<endl;
 				//cout<<"Posicion de la Bolita: "<<filaBolita<<" "<<columnaBolita<<endl;
 
 				cout<<endl;
+
 				cout<<"Ingrese una posicion en Fila: ";
 				cin>> x;
 				cout<<"Ingrese una posicion en Columna: ";
 				cin>> y;
-				validarIntento(x,y);
-				adivinar = (filaBolita == x) && (columnaBolita == y);
+
+				char letra;
+
+				if(x!=letra && y!=letra){
+					validarIntento(x,y);
+					adivinar = (filaBolita == x) && (columnaBolita == y);
+				}
+				else{
+					cout<<endl;
+					cout<<endl;
+					cout<<"Dato invalido."<<endl;
+					cout<<"Reinicie el Programa."<<endl;
+					system("pause");
+					exit(0);
+				}
 			}
 		}
 		cout<<endl;
@@ -85,6 +95,8 @@ void Arbitro::iniciarJuego() {
 		system("pause");
 	}
 	else{
+		cout<<endl;
+		cout<<"Dato invalido."<<endl;
 		cout<<"Reinicie el Programa."<<endl;
 		system("pause");
 		exit(0);
@@ -95,7 +107,9 @@ void Arbitro::imprimirTablero() {
     //Debe implementar un metodo que imprima el tablero en pantalla
     //Recuerde que el usuario no puede conocer la posicion de la bolita
 
+	cout<<endl;
 	cout<<"  ";
+
 	for(int tab=0; tab < tablero.getDimension(); tab++){
 		cout<<"  "<<tab;
 	}
@@ -111,20 +125,20 @@ void Arbitro::imprimirTablero() {
 
 	   for(int columna=0; columna < tablero.getDimension(); columna++){
 		   if(columna>9){
-			cout<<tablero.getCasilla(fila, columna)<<"   ";
+			   cout<<tablero.getCasilla(fila, columna)<<"   ";
 		   }
 		   else{
-		    cout<<tablero.getCasilla(fila, columna)<<"  ";
+			   cout<<tablero.getCasilla(fila, columna)<<"  ";
 		   }
-		}
-		cout<<endl;
+	   }
+	   cout<<endl;
 	}
 }
 
 int Arbitro::calcularDistancia(int fila, int columna){
-    //Debe implmentar un metodo que calcula la distancia entre la posicion (fila, columna)
+    //Debe implementar un metodo que calcula la distancia entre la posicion (fila, columna)
     //Y la posicion real de la bolita
-    return floor(sqrt(( (fila - filaBolita)*(fila - filaBolita)) + ((columna - columnaBolita)*(columna - columnaBolita)) )); //Floor retorna un número entero, a pesar que el resultado sea un decimal
+    return floor(sqrt(( (fila - filaBolita)*(fila - filaBolita)) + ((columna - columnaBolita)*(columna - columnaBolita)) )); //Floor retorna un nÃºmero entero, a pesar que el resultado sea un decimal
 }
 
 bool Arbitro::validarIntento(int fila, int columna){
@@ -133,56 +147,45 @@ bool Arbitro::validarIntento(int fila, int columna){
     //En caso de no serlo debe realizar los cambios correspondientes a las variables miembro
     //Y debe informar por pantalla cual fue la distancia del fallo y el puntaje restante
 
-	if(fila>=0 && columna>=0){}
-	else{
-		cout<<endl;
-		cout<<endl;
-		cout<<"Reinicie el Programa"<<endl;
-		system("pause");
-		exit(0);
-	}
 
-	if((fila == filaBolita)&&(columna == columnaBolita)){
-		juegoEnCurso=false;
+	int validar =  (tablero.getDimension() - 1);
+
+	if((fila<0 || columna<0)||(fila>validar || columna>validar))
+	{
+		cout<<endl;
+		cout<< "Te has salido del  margen del tablero"<<endl;
+		cout<< "Ingresa un valor valido"<<endl;
+
 	}
 	else{
-						//100  - 100   /(N * N) Dimensión Digitado por el Usuario
-		puntaje = floor(puntaje-puntaje/(tablero.getDimension() * tablero.getDimension()));
-
-		int puntos = puntaje;
-
-		if(puntos == 0){
-			cout<<endl;
-			cout<<"Haz perdido el Juego."<<endl;
-			cout<< "Tu Puntaje es: "<<puntaje<<endl;
-			system("pause");
-			exit(0);
+		if((fila == filaBolita)&&(columna == columnaBolita)){
+			juegoEnCurso=false;
 		}
 		else{
-			cout<<endl;
-			cout<<"Intento Fallido, vuelve a intentarlo"<<endl;
-			cout<<"Puntos restantes: "<<puntaje<<endl;
-			cout<<"La Distancia es: "<<calcularDistancia(fila, columna)<<endl;
-		}
+			//100  - 100   /(N * N) Dimensión Digitado por el Usuario
+			puntaje = floor(puntaje-puntaje/(tablero.getDimension() * tablero.getDimension()));
 
-		//Si Fila y Columna SUPERA la Dimensión establecida, no mostrará el ASTERISCO en la Posición que Indico el Usuario
-		if(fila > tablero.getDimension() || columna > tablero.getDimension()){
-			cout<<endl;
-			system("pause"); //Función (Presionse Tecla Para Continuar...)
-			system("cls"); //Limpiar Pantalla (Funciona En Consola .exe) Debe incluir la Librería stdlib.h
-			imprimirTablero();
-		}
-		else{
-			cout<<endl;
-			system("pause");
-			char ubicacionUsuario = '*';
-			tablero.setCasilla(fila, columna, ubicacionUsuario);
-			system("cls");
-			imprimirTablero();
+			int puntos = puntaje;
+
+			if(puntos == 0){
+				cout<<endl;
+				cout<<"Haz perdido el Juego."<<endl;
+				cout<< "Tu Puntaje es: "<<puntaje<<endl;
+				system("pause");
+				exit(0);
+			}
+			else{
+				system("cls");
+				cout<<endl;
+				cout<<"Intento Fallido, vuelve a intentarlo"<<endl;
+				cout<<"Puntos restantes: "<<puntaje<<endl;
+				cout<<"La Distancia es: "<<calcularDistancia(fila, columna)<<endl;
+				char bolita = 'O';
+				tablero.setCasilla(fila, columna, bolita);
+				system("pause");
+				//system("cls");
+				imprimirTablero();
+			}
 		}
 	}
 }
-
-
-
-
